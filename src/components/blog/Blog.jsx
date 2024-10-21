@@ -1,10 +1,11 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { FaBookmark } from "react-icons/fa";
+import { useDispatch } from "react-redux";
+import { addBookmark } from "../../redux/features/addBlogSlice/addBookmarkSlice";
 
-const Blog = ({ blog, handleAddBookmark }) => {
+const Blog = ({ blog }) => {
   const {
-    id,
     title,
     cover,
     author_img,
@@ -15,15 +16,7 @@ const Blog = ({ blog, handleAddBookmark }) => {
   } = blog;
 
   const [marked, setMarked] = useState(false);
-  const [text, setTesxt] = useState("Mark as Read");
-  const handleMarked = () => {
-    setMarked(!marked);
-    if (marked) {
-      setTesxt("Marked");
-    } else {
-      setTesxt("Mark as Read");
-    }
-  };
+  const dispatch = useDispatch();
 
   return (
     <div className="p-3">
@@ -38,7 +31,7 @@ const Blog = ({ blog, handleAddBookmark }) => {
         </div>
         <div className="flex gap-3">
           <span>{reading_time} min read</span>
-          <button onClick={() => handleAddBookmark(blog, id, reading_time)}>
+          <button onClick={() => dispatch(addBookmark(blog))}>
             <FaBookmark className="w-4 h-4 text-gray-400" />
           </button>
         </div>
@@ -52,10 +45,10 @@ const Blog = ({ blog, handleAddBookmark }) => {
         ))}
       </p>
       <button
-        onClick={() => handleMarked()}
+        onClick={() => setMarked(!marked)}
         className="underline text-[#6047EC] text-xl "
       >
-        {text}
+        {marked ? "Marked" : "Mark as Read"}
       </button>
     </div>
   );
@@ -63,6 +56,5 @@ const Blog = ({ blog, handleAddBookmark }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  handleAddBookmark: PropTypes.func.isRequired,
 };
 export default Blog;

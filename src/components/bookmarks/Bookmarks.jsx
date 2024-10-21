@@ -1,8 +1,9 @@
-import PropTypes from "prop-types";
 import Bookmark from "../bookmark/Bookmark";
+import { useSelector } from "react-redux";
 
-const Bookmarks = ({ bookmarks, readingTimes }) => {
-  // console.log(bookmarks.length);
+const Bookmarks = () => {
+  const { bookmarks, readingTimes } = useSelector((state) => state.addbookmark);
+
   return (
     <div className="w-1/3 pt-3">
       <div>
@@ -12,21 +13,16 @@ const Bookmarks = ({ bookmarks, readingTimes }) => {
       </div>
       <div className="bg-gray-300 my-4 p-4 rounded-md">
         <h2 className="text-xl font-semibold">
-          Bookmarked Blogs: {bookmarks.length}
+          Bookmarked Blogs: {bookmarks?.length}
         </h2>
         <div>
-          {bookmarks.map((bookmark) => (
-            <Bookmark key={bookmark.id} bookmark={bookmark} />
+          {bookmarks?.map((bookmark, idx) => (
+            <Bookmark key={idx} bookmark={bookmark} />
           ))}
         </div>
       </div>
     </div>
   );
-};
-
-Bookmarks.propTypes = {
-  bookmarks: PropTypes.array.isRequired,
-  readingTimes: PropTypes.number,
 };
 
 export default Bookmarks;
